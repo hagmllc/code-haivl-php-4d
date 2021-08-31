@@ -1,0 +1,91 @@
+<?php
+
+include("../include/config.php");
+include_once("../include/functions/import.php");
+verify_login_admin();
+
+$ADMINID = intval($_REQUEST[ADMINID]);
+
+if($_POST['submitform'] == "1")
+{
+	$username = $_POST[username];
+	$password = $_POST[password];
+	$email = $_POST[email];
+	
+	if($ADMINID > 0)
+	{
+		if($username == "")
+		{
+			$error = "Lỗi: Vui lòng điền tên đăng nhập.";
+		}
+		elseif($email == "")
+		{
+			$error = "Lỗi: Vui lòng nhập một e-mail.";
+		}
+		else
+		{
+			$sql="select count(*) as total from administrators WHERE username='".mysql_real_escape_string($username)."' AND ADMINID!='".mysql_real_escape_string($ADMINID)."'";
+			$executequery = $conn->Execute($sql);
+			$tadmins = $executequery->fields[total];
+						
+			if($tadmins == "0")
+			{ 
+				$sql="select count(*) as total from administrators WHERE email='".mysql_real_escape_string($email)."' AND ADMINID!='".mysql_real_escape_string($ADMINID)."'";
+				$executequery = $conn->Execute($sql);
+				$tadmins = $executequery->fields[total];
+				
+				if($tadmins == "0")
+				{
+					$addtosql = "";
+					if ($password != "")
+					{
+						$newpassword = escape($password);
+						$newpassword = md5($newpassword);
+						$addtosql = ", password = '".mysql_real_escape_string($newpassword)."'"; 
+					}
+	
+					$sql = "UPDATE administrators set username='".mysql_real_escape_string($username)."', email='".mysql_real_escape_string($email)."' $addtosql WHERE ADMINID='".mysql_real_escape_string($ADMINID)."'";
+					$conn->execute($sql);
+					$message = "Sửa thành công.";
+					Stemplate::assign('message',$message);
+					
+					if($_SESSION['ADMINID'] == $ADMINID)
+					{
+						$_SESSION['ADMINUSERNAME'] = $username;
+						
+						if ($password != "")
+						{
+							$_SESSION['ADMINPASSWORD'] = $newpassword;
+						}
+					}
+					
+				}
+				else
+				{
+					$error = "Lỗi: E-mail $email đã được sử dụng.";
+				}
+			}
+			else
+			{
+				$error = "Lỗi: Tên đăng nhập $username đã được sử dụng.";
+			}
+		}
+	}
+}
+
+if($ADMINID > 0)
+{
+	$query = $conn->execute("select * from administrators where ADMINID='".mysql_real_escape_string($ADMINID)."' limit 1");
+	$admin = $query->getrows();
+	Stemplate::assign('admin', $admin[0]);
+}
+
+$mainmenu = "12";
+$submenu = "1";
+Stemplate::assign('error',$error);
+Stemplate::assign('mainmenu',$mainmenu);
+Stemplate::assign('submenu',$submenu);
+STemplate::display("administrator/global_header.tpl");
+STemplate::display("administrator/admins_edit.tpl");
+STemplate::display("administrator/global_footer.tpl");
+?>

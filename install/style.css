@@ -1,0 +1,37 @@
+body{
+color:#000000;
+background-color:#F6F4F0;
+margin:30px auto;
+width:800px;
+font-family:verdana,helvetica,arial,sans-serif;
+font-size:12px;
+}
+
+div.green
+{
+width:758px;
+color:#000000;
+padding:0 20px 20px 20px;
+border:1px solid #d4d4d4;
+background-color:#e5eecc;
+background-image:linear-gradient(#ffffff, #e5eecc 100px);
+}
+
+div.ketqua
+{
+width:737px;
+height:200px;
+background-color:#ffffff;
+padding:10px 10px 10px 10px;
+border:1px solid #d4d4d4;
+overflow: auto;
+font-size:12px;
+font-family:"courier new";
+}
+
+h1
+{
+color:#617f10;
+font-size:24px;
+}
+

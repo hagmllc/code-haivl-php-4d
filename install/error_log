@@ -1,0 +1,2 @@
+[19-May-2013 20:27:40] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Unknown MySQL server host 'lcgfdgdf' (1) in /home/trungvn/public_html/install/index.php on line 694
+[19-May-2013 20:29:27] PHP Warning:  mysql_connect() [<a href='function.mysql-connect'>function.mysql-connect</a>]: Access denied for user 'trungvn_db'@'localhost' (using password: YES) in /home/trungvn/public_html/install/index.php on line 694

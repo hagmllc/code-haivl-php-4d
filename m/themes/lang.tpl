@@ -1,0 +1,1 @@
+<a id="lang_button" label="{if $smarty.session.language eq "en"}EN{elseif $smarty.session.language eq "vi"}VI{/if}" class='lang' href='javascript:void(0);'>{if $smarty.session.language eq "en"}EN{elseif $smarty.session.language eq "vi"}VI{/if}</a>
